@@ -58,6 +58,8 @@ GELVQSWPALPAR	PA2867  1439.79  1861.30  1629.01   1295.86  1706.28  1307.05
           {
           if ($headl1[$n]  =~/^[^\.]+\.[0-9]+$/)
              {
+             $MSWords[0] =~ s/\s+/./g;
+             $MSWords[0] =~ s/\W+/./g;
              $MSpeptideIntensity{$MSWords[1]}{$MSWords[0]}{$headl1[$n]}=$MSWords[$n];
              }
           }
@@ -188,16 +190,13 @@ open T4R, '>', $fileOut || die ("Couldn't open the $fileOut file");
 #The headline
 print T4R "Strain";
 print T4R "\t"."Phenotype";
-foreach $CurrrrentStrain (sort (keys %Printout))
-  {
-  foreach $CurrrrentVar (sort (keys %{$Printout{$CurrrrentStrain}}))
+foreach $CurrrrentVar (sort (keys %MAXCHEKER))
     {
     if ($MAXCHEKER{$CurrrrentVar} > $Cuttoff)
       {
       print T4R "\t".$CurrrrentVar;
       }
     }
-  }
 print T4R "\n";
 
 #The body
